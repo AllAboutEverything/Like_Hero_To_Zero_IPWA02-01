@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Zu überprüfende CO₂-Daten</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background: #f4f4f4; }
+        header, nav { margin-bottom: 1em; }
+        nav a { margin-right: 1em; }
+        table {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔎 Einträge zur Freigabe</h1>
+    <nav>
+        <a href="/">Startseite</a>
+        <a href="/add">Eintragen</a>
+
+        <span sec:authorize="isAuthenticated()">
+            Eingeloggt als <strong sec:authentication="name"></strong>
+        </span>
+
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </span>
+
+        <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}">Login</a>
+        </span>
+
+    </nav>
+</header>
+
+<table>
+    <thead>
+    <tr>
+        <th>Land</th>
+        <th>Jahr</th>
+        <th>Emissionen (kt)</th>
+        <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="e : ${emissions}">
+        <td th:text="${e.country}">Land</td>
+        <td th:text="${e.emissionYear}">2023</td>
+        <td th:text="${e.emissionKt}">100000</td>
+        <td>
+            <form th:action="@{/admin/approve/{id}(id=${e.id})}" method="post" style="display:inline">
+                <button type="submit">Freigeben</button>
+            </form>
+            <form th:action="@{/admin/delete/{id}(id=${e.id})}" method="post" style="display:inline">
+                <button type="submit">Löschen</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

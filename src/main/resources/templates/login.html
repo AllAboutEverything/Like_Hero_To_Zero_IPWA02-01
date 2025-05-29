@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Login – Like Hero To Zero</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background: #f4f4f4; }
+        header, nav { margin-bottom: 1em; }
+        nav a { margin-right: 1em; }
+    </style>
+</head>
+<body>
+
+<span sec:authorize="isAuthenticated()">
+    Eingeloggt als <strong sec:authentication="name"></strong>
+</span>
+
+<span sec:authorize="isAuthenticated()">
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</span>
+
+<h2>🔐 Login</h2>
+<form th:action="@{/login}" method="post" style="max-width: 300px; padding: 1em; background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px;">
+    <div style="margin-bottom: 1em;">
+        <label style="display: block; margin-bottom: 0.3em;">Benutzername:</label>
+        <input type="text" name="username" style="width: 100%; padding: 0.4em; border: 1px solid #ccc; border-radius: 4px;"/>
+    </div>
+    <div style="margin-bottom: 1em;">
+        <label style="display: block; margin-bottom: 0.3em;">Passwort:</label>
+        <input type="password" name="password" style="width: 100%; padding: 0.4em; border: 1px solid #ccc; border-radius: 4px;"/>
+    </div>
+    <button type="submit" style="padding: 0.6em 1.2em; border:none; background:#007bff; color:white; border-radius:4px; cursor:pointer;">Login</button>
+</form>
+
+<div style="margin-top: 1em; background: #eee; padding: 1em; border-radius: 4px; max-width: 450px; font-family: monospace;">
+    <strong>Verfügbare Test-Accounts:</strong>
+    <hr style="margin: 0.7em 0;">
+    <div>
+        <div><strong>Benutzername:</strong> scientist1</div>
+        <div><strong>Passwort:</strong> password</div>
+        <div style="font-size: 0.9em; color: #555;">(Benutzer-Rolle, darf neue Daten zur Freigabe vorschlagen)</div>
+    </div>
+    <hr style="margin: 0.7em 0;">
+    <div>
+        <div><strong>Benutzername:</strong> admin</div>
+        <div><strong>Passwort:</strong> admin</div>
+        <div style="font-size: 0.9em; color: #555;">(Admin-Rolle, darf zusätzlich neue Daten freigeben)</div>
+    </div>
+</div>
+
+<p><a href="/">Zurück zur Startseite</a></p>
+</body>
+</html>

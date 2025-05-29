@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Like Hero To Zero – CO₂ Emissionen</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background: #f4f4f4; }
+        header, nav { margin-bottom: 1em; }
+        nav a { margin-right: 1em; }
+        table {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-collapse: collapse;
+        }
+        table th:first-child,
+        table td:first-child {
+            min-width: 200px;
+        }
+        th, td {
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌍 Like Hero To Zero – CO₂-Emissionen</h1>
+    <nav>
+        <a href="/">Startseite</a>
+        <a href="/add">Eintragen</a>
+
+        <span sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{/admin/review}">Daten freigeben</a>
+        </span>
+
+        <span sec:authorize="isAuthenticated()">
+            Eingeloggt als <strong sec:authentication="name"></strong>
+        </span>
+
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </span>
+
+        <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}">Login</a>
+        </span>
+
+    </nav>
+</header>
+
+<form action="/" method="get">
+    <label for="country">Staat eingeben:</label>
+    <input type="text" id="country" name="country" placeholder="z. B. Germany">
+    <button type="submit">Suchen</button>
+</form>
+
+<div th:if="${emission != null}">
+    <h2>Ergebnisse für <span th:text="${country}">Land</span></h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Land</th>
+            <th>Jahr</th>
+            <th>Emissionen (kt)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${emission.country}">Country</td>
+            <td th:text="${emission.emissionYear}">2021</td>
+            <td th:text="${emission.emissionKt}">0</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${emission == null and country != null}">
+    <p>Keine Daten für <span th:text="${country}">Land</span> gefunden.</p>
+</div>
+
+<h2>Höchste CO₂-Emissionen</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Land</th>
+        <th>Jahr</th>
+        <th>Emissionen (kt)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="emission, iterStat : ${top10emissions}">
+        <td th:text="${emission.country}">Country</td>
+        <td th:text="${emission.emissionYear}">2024</td>
+        <td th:text="${emission.emissionKt}">0</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
