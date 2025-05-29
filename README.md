@@ -10,3 +10,5 @@ The requirements engineer has already discussed the following user stories in ad
 2. MUST: As a registered data contributor, I want to include the most recent data from my climate research in the dataset.
 
 3. COULD: As the editor of the dataset, I want to ensure that any additions or changes to the data must first be approved.
+
+![image](https://github.com/user-attachments/assets/c7f25969-0737-40e9-8586-30ba1ca838fa)
